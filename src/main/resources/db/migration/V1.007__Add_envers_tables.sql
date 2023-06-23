@@ -1,0 +1,12 @@
+create sequence revinfo_seq start with 1 increment by 50;
+create table course_aud (id integer not null, rev integer not null, revtype smallint, name varchar(255), primary key (rev, id));
+create table revinfo (rev integer not null, revtstmp bigint, primary key (rev));
+create table student_aud (id integer not null, rev integer not null, revtype smallint, birth_date date, central_id varchar(255), name varchar(255), semester integer, used_free_semesters integer, primary key (rev, id));
+create table student_course_aud (rev integer not null, students_id integer not null, course_id integer not null, revtype smallint, primary key (rev, students_id, course_id));
+create table teacher_aud (id integer not null, rev integer not null, revtype smallint, birth_date date, name varchar(255), primary key (rev, id));
+create table teacher_course_aud (rev integer not null, teachers_id integer not null, course_id integer not null, revtype smallint, primary key (rev, teachers_id, course_id));
+alter table if exists course_aud add constraint FK_course_aud_rev foreign key (rev) references revinfo;
+alter table if exists student_aud add constraint FK_student_aud_rev foreign key (rev) references revinfo;
+alter table if exists student_course_aud add constraint FK_student_course_aud_rev foreign key (rev) references revinfo;
+alter table if exists teacher_aud add constraint FK_teacher_aud_rev foreign key (rev) references revinfo;
+alter table if exists teacher_course_aud add constraint FK_teacher_course_aud_rev foreign key (rev) references revinfo;
